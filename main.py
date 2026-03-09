@@ -15,7 +15,7 @@ with sync_playwright() as p:
     page = context.new_page()
 
 
-    print("🌐 Ouverture de la page...")
+    print("Ouverture de la page...")
     page.goto(URL)
 
     # Accepter les cookies
@@ -23,7 +23,7 @@ with sync_playwright() as p:
         page.locator("#popin_tc_privacy_button_3").click()
         print("Cookies acceptés !")
     except Exception as e:
-        print(f"🍪 Pas de bannière cookies : {e}")
+        print(f"Pas de bannière cookies : {e}")
     
     
     page.locator("a[alt='Se connecter']").click()
@@ -36,9 +36,14 @@ with sync_playwright() as p:
     print("Connexion envoyée !")
     page.wait_for_load_state("networkidle")
 
+    #Changement de pays
+    page.locator(".lp-dropdown__combobox").nth(1).click()
+    page.locator(".lp-dropdown__listbox input.input__field").first.fill("France")
+    page.locator("li[role='option']", has_text="France").first.click()
+
 
     # Remplir le poids
-    print("⚖️ Remplissage du poids...")
+    print("Remplissage du poids...")
     poids_input = page.locator("input#weightInput")
     poids_input.click()
     poids_input.fill("1")
@@ -47,6 +52,19 @@ with sync_playwright() as p:
     #page.locator(".lp-dropdown__combobox").nth(1).click()
     #page.locator(".lp-dropdown__listbox input.input__field").first.fill("Allemagne")
     #page.locator("li[role='option']", has_text="Allemagne").first.click()
+
+    page.locator(".summary-step__validate__button--fullwidth").click()
+    print("Étape suivante cliquée !")
+    page.wait_for_load_state("networkidle")
+
+    page.locator("input#notif").click(force=True)
+    print("Notification cochée !")
+
+    #page.locator("input#card-input-id-D_BP").click(force=True)
+    #print("Point de contact La Poste sélectionné !")
+
+    page.locator("input#card-input-id-D_BAL").click(force=True)
+    print("Point de contact La Poste sélectionné !")
 
     page.locator(".summary-step__validate__button--fullwidth").click()
     print("Étape suivante cliquée !")
