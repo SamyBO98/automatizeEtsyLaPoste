@@ -48,5 +48,9 @@ with sync_playwright() as p:
     #page.locator(".lp-dropdown__listbox input.input__field").first.fill("Allemagne")
     #page.locator("li[role='option']", has_text="Allemagne").first.click()
 
+    page.locator(".summary-step__validate__button--fullwidth").click()
+    print("Étape suivante cliquée !")
+    page.wait_for_load_state("networkidle")
+
 
     input("Appuie sur Entrée pour fermer...")
